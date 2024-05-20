@@ -4,7 +4,7 @@ import mediapipe as mp
 
 # Initialize MediaPipe Hands.
 mp_hands = mp.solutions.hands
-hands = mp_hands.Hands(max_num_hands=1)
+hands = mp_hands.Hands(max_num_hands=2)
 mp_drawing = mp.solutions.drawing_utils
 
 # Initialize video capture.
@@ -53,16 +53,16 @@ while True:
 
     if results.multi_hand_landmarks:
         for hand_landmarks in results.multi_hand_landmarks:
-            # Get the coordinates of the wrist (landmark 0).
+            # Get the coordinates of the wrist (landmark 8).
             wrist = hand_landmarks.landmark[8]
             center = (int(wrist.x * w), int(wrist.y * h))
-
+        
             # Draw the hand landmarks.
             mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
 
             # If there's a previous center point, draw a line from it to the current center point.
             if prev_center is not None:
-                cv2.line(trajectory, prev_center, center, (0, 255, 0), 2)
+                #cv2.line(trajectory, prev_center, center, (0, 255, 0), 2)
 
                 # Check if the hand crosses the vertical line.
                 if (prev_center[0] < line_x and center[0] > line_x) or (prev_center[0] > line_x and center[0] < line_x):
